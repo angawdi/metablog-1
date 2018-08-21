@@ -7,6 +7,18 @@
       <%= article.author.name %>
     </a>
 </h4>
+<div>
+  Tags:
+  <% if(article.tags && article.tags.length > 0){%>
+  <% article.tags.forEach(function(t){%>
+    <a href="/tags/<%=t.id%>">
+      #<%=t.name%>
+    </a>
+  <%});%>
+  <% } else {%>
+    <p>No tags yet!</p>
+  <%}%>
+</div>
 
 <p>
   <%= article.content %>

@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   article.associate = function(models) {
     models.article.belongsTo(models.author);
     models.article.hasMany(models.comment);
+    models.article.belongsToMany(models.tag, {through: 'articleTags'});
   };
   return article;
 };

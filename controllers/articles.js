@@ -23,7 +23,7 @@ router.get('/new', function(req, res){
 router.get('/:id', function(req, res){
   db.article.findOne({
     where: {id: req.params.id},
-    include: [db.author, db.comment]
+    include: [db.author, db.comment, db.tag]
   }).then(function(foundArticle){
     db.author.findAll().then(function(allAuthors){
       res.render('articles/show', {article: foundArticle, authors: allAuthors});
@@ -40,7 +40,27 @@ router.get('/:id', function(req, res){
 router.post('/', function(req, res){
   if(req.body.authorId > 0){
     db.article.create(req.body).then(function(createdArticle){
-      res.redirect('/articles/' + createdArticle.id);
+      // Parse the tags (if there are any)
+      var tags = [];
+      if(req.body.tags){
+        tags = req.body.tags.split(',');
+      }
+
+      if(tags.length > 0){
+        // Loop through tags, create if needed, the add relation in join table
+        tags.forEach(function(t){
+          db.tag.findOrCreate({
+            where: {name: t.trim()}
+          }).spread(function(newTag, wasCreated){
+            createdArticle.addTag(newTag);
+          });
+        });
+
+        res.redirect('/articles/' + createdArticle.id);
+      }
+      else {
+        res.redirect('/articles/' + createdArticle.id);
+      }
     }).catch(function(err){
       console.log(err);
       res.render('error');
