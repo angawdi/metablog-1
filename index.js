@@ -20,5 +20,10 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
+app.get('*', function(req, res){
+  console.log('wildcard route');
+  res.render('error');
+});
+
 // Hey! Listen!
 app.listen(3000);
