@@ -1,0 +1,26 @@
+<h2>Create a new Article</h2>
+
+<form>
+  <div class="form-group">
+    <label for="name">Title:</label>
+    <input type="text" name="title" placeholder="What is your article about?" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="name">Author:</label>
+    <select name="authorId" class="form-control">
+      <option value="0">Choose Your Name Below</option>
+      <% if(authors) {%>
+        <% authors.forEach(function(a){%>
+          <option value="<%=a.id%>">
+            <%= a.name %>
+          </option>
+        <%});%>
+      <% }%>
+    </select>
+    Don't see your name? <a href="/authors/new">Register Here</a>!
+  </div>
+  <div class="form-group">
+    <label for="name">Content:</label>
+    <textarea name="bio" class="form-control"></textarea>
+  </div>
+</form>
