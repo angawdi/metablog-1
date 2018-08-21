@@ -1,0 +1,27 @@
+<h2>All About <%= author.name %>!</h2>
+
+<div class="row">
+  <div class="col-6">
+    <img src="<%= author.image%>" style="max-width:150px;height:auto;">
+  </div>
+  <div class="col-6">
+    <h5><%= author.name %>'s Bio</h5>
+    <p>
+      <%= author.bio %>
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <h3>Articles by <%= author.name %></h3>
+    <% author.articles.forEach(function(article){%>
+      <div>
+        <hr>
+        <a href="/articles/<%=article.id%>">
+          <%= article.title %>
+        </a>
+      </div>
+    <%});%>
+  </div>
+</div>

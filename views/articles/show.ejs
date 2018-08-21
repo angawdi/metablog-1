@@ -1,0 +1,13 @@
+<h2>
+  <%= article.title %>
+</h2>
+<h4>
+    By
+    <a href="/authors/<%=article.authorId%>">
+      <%= article.author.name %>
+    </a>
+</h4>
+
+<p>
+  <%= article.content %>
+</p>

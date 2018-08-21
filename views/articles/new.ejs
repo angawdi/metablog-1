@@ -1,6 +1,6 @@
 <h2>Create a new Article</h2>
 
-<form>
+<form method="POST" action="/articles">
   <div class="form-group">
     <label for="name">Title:</label>
     <input type="text" name="title" placeholder="What is your article about?" class="form-control">
@@ -17,10 +17,12 @@
         <%});%>
       <% }%>
     </select>
-    Don't see your name? <a href="/authors/new">Register Here</a>!
+    Don't see your name?
+    <a href="/authors/new">Register Here</a>!
   </div>
   <div class="form-group">
     <label for="name">Content:</label>
-    <textarea name="bio" class="form-control"></textarea>
+    <textarea name="content" class="form-control"></textarea>
   </div>
+  <input type="submit" value="Post Article" class="btn btn-primary">
 </form>
