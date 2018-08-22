@@ -1,3 +1,4 @@
+var async = require('async');
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
@@ -48,15 +49,30 @@ router.post('/', function(req, res){
 
       if(tags.length > 0){
         // Loop through tags, create if needed, the add relation in join table
-        tags.forEach(function(t){
+        async.forEach(tags, function(t, done){
+          // This code runs for each individual tag we need to add
           db.tag.findOrCreate({
             where: {name: t.trim()}
           }).spread(function(newTag, wasCreated){
-            createdArticle.addTag(newTag);
+            createdArticle.addTag(newTag).then(function(){
+              done(); // tell async, this iteration is all finished!
+            });
           });
+        }, function(){
+          // This code runs when EVERYTHING is 100% done!
+          res.redirect('/articles/' + createdArticle.id);
         });
 
-        res.redirect('/articles/' + createdArticle.id);
+        // DARN: THIS HAS TIMING ISSUES!
+        // tags.forEach(function(t){
+        //   db.tag.findOrCreate({
+        //     where: {name: t.trim()}
+        //   }).spread(function(newTag, wasCreated){
+        //     createdArticle.addTag(newTag);
+        //   });
+        // });
+
+        // res.redirect('/articles/' + createdArticle.id);
       }
       else {
         res.redirect('/articles/' + createdArticle.id);
